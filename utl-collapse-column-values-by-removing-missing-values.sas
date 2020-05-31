@@ -1,7 +1,14 @@
 Collapse column values by removing missing values                                                                                 
                                                                                                                                   
 Self update method does not work for this table                                                                                   
-                                                                                                                                  
+  
+Additional non macro solution by                          
+                                                          
+Paul Dorfman                                              
+sashole@bellsouth.net
+
+on the end 
+
 github                                                                                                                            
 https://tinyurl.com/y9bo45ay                                                                                                      
 https://github.com/rogerjdeangelis/utl-collapse-column-values-by-removing-missing-values                                          
@@ -79,5 +86,73 @@ work.WANT total obs=4
                                                                                                                                   
 data want;                                                                                                                        
   merge %do_over(vars,phrase=%str(sd1.have(keep=? where=(? ne .)) ) ) ;                                                           
-run;quit;                                                                                                                         
+run;quit;      
+
+Additional non macro solution by                          
+                                                          
+Paul Dorfman                                              
+sashole@bellsouth.net
+
+on the end                                                
+                                                          
+*                                                         
+ _ __   ___  _ __    _ __ ___   __ _  ___ _ __ ___        
+| '_ \ / _ \| '_ \  | '_ ` _ \ / _` |/ __| '__/ _ \       
+| | | | (_) | | | | | | | | | | (_| | (__| | | (_) |      
+|_| |_|\___/|_| |_| |_| |_| |_|\__,_|\___|_|  \___/       
+                                                          
+;                                                         
+                                                          
+Paul Dorfman                                              
+sashole@bellsouth.net                                     
+                                                          
+data have ;                                               
+  input v1-v3 ;                                           
+  cards ;                                                 
+11  . 13                                                  
+ . 22  .                                                  
+31  . 33                                                  
+.   .  .                                                  
+51 52  .                                                  
+61  . 63                                                  
+;                                                         
+                                                          
+data _null_ ;                                             
+  set have (obs=1) nobs = n ;                             
+  call symputx ("n", n) ;                                 
+run ;                                                     
+                                                          
+data want ;                                               
+  set have end = z ;                                      
+  array x [3, 0:&n] _temporary_ ;                         
+  array v v: ;                                            
+  do over v ;                                             
+    if nmiss (v) then continue ;                          
+    x[_i_,0] + 1 ;                                        
+    x[_i_, x[_i_,0]] = v ;                                
+  end ;                                                   
+  if z then do _n_ = 1 to &n ;                            
+    do over v ;                                           
+      v = x[_i_,_n_] ;                                    
+    end ;                                                 
+    output ;                                              
+  end ;                                                   
+run ;                                                     
+                                                          
+... we get:                                               
+                                                          
+v1 v2 v3                                                  
+--------                                                  
+11 22 13                                                  
+31 52 33                                                  
+51  . 63                                                  
+61  .  .                                                  
+.   .  .                                                  
+.   .  .                                                  
+                                                          
+                                                          
+Best regards                                              
+Paul Dorfman                                              
+                                                          
+
                                                                                                                                   
