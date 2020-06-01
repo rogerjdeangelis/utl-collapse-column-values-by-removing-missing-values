@@ -8,11 +8,11 @@ Self update method does not work for this table
                                                                                                                                         
    b. Datastep array                                                                                                                    
       Paul Dorfman                                                                                                                      
-      sashole@bellsouth.net                                                                                                             
+       saslhole@gmail.com                                                                                                           
                                                                                                                                         
    c. Hash                                                                                                                              
       Paul Dorfman                                                                                                                      
-      sashole@bellsouth.net                                                                                                             
+       saslhole@gmail.com                                                                                                             
                                                                                                                                         
                                                                                                                                         
 github                                                                                                                                  
